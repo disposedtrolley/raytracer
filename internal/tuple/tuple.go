@@ -1,5 +1,7 @@
 package tuple
 
+import "math"
+
 type Tuple struct {
 	X float64
 	Y float64
@@ -27,4 +29,12 @@ func NewVector(x, y, z float64) *Vector {
 		Z: z,
 		W: 0.0,
 	}
+}
+
+const EPSILON = 0.00001
+
+// Equal returns whether a and b are equal to the tolerance
+// defined in the constant EPSILON.
+func Equal(a, b float64) bool {
+	return math.Abs(a - b) < EPSILON
 }
