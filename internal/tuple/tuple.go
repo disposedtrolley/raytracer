@@ -38,3 +38,10 @@ const EPSILON = 0.00001
 func Equal(a, b float64) bool {
 	return math.Abs(a - b) < EPSILON
 }
+
+func EqualTuple(a, b *Tuple) bool {
+	return Equal(a.X, b.X) &&
+		Equal(a.Y, b.Y) &&
+		Equal(a.Z, b.Z) &&
+		Equal(a.W, b.W)
+}
