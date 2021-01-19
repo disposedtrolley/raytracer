@@ -86,3 +86,14 @@ func Mul(t *Tuple, s float64) *Tuple {
 		W: t.W * s,
 	}
 }
+
+// Div returns a new Tuple which is the division of the scalar
+// value s against t.
+func Div(t *Tuple, s float64) *Tuple {
+	return &Tuple{
+		X: t.X / s,
+		Y: t.Y / s,
+		Z: t.Z / s,
+		W: t.W / s,
+	}
+}

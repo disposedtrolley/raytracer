@@ -250,3 +250,25 @@ func TestMul(t *testing.T) {
 		})
 	}
 }
+
+func TestDiv(t *testing.T) {
+	tests := []struct {
+		Name           string
+		Tuple          *tuple.Tuple
+		Scalar         float64
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "dividing a tuple by a scalar",
+			Tuple:          &tuple.Tuple{1, -2, 3, -4},
+			Scalar:         2,
+			ExpectedResult: &tuple.Tuple{0.5, -1, 1.5, -2},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Div(tc.Tuple, tc.Scalar))
+		})
+	}
+}
