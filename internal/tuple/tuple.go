@@ -9,10 +9,8 @@ type Tuple struct {
 	W float64
 }
 
-type Point Tuple
-
-func NewPoint(x, y, z float64) *Point {
-	return &Point{
+func NewPoint(x, y, z float64) *Tuple {
+	return &Tuple{
 		X: x,
 		Y: y,
 		Z: z,
@@ -20,10 +18,8 @@ func NewPoint(x, y, z float64) *Point {
 	}
 }
 
-type Vector Tuple
-
-func NewVector(x, y, z float64) *Vector {
-	return &Vector{
+func NewVector(x, y, z float64) *Tuple {
+	return &Tuple{
 		X: x,
 		Y: y,
 		Z: z,
