@@ -98,8 +98,12 @@ func Div(t *Tuple, s float64) *Tuple {
 	}
 }
 
-// Mag returns the magnitude of t.
+// Mag returns the magnitude of the vector tuple t.
 func Mag(t *Tuple) float64 {
+	if t.W != 0 {
+		panic(fmt.Errorf("attempted to compute the magnitude of a non-vector tuple: %+v", t))
+	}
+
 	return math.Sqrt(
 		math.Pow(t.X, 2) +
 			math.Pow(t.Y, 2) +
