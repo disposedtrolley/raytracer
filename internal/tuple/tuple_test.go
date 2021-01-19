@@ -43,29 +43,28 @@ func TestVector(t *testing.T) {
 }
 
 func TestEqual(t *testing.T) {
-	tests := []struct{
-		Name string
-		FloatA float64
-		FloatB float64
+	tests := []struct {
+		Name          string
+		FloatA        float64
+		FloatB        float64
 		ExpectedEqual bool
 	}{
 		{
-			Name: "when two floats with a difference smaller than tuple.EPSILON are compared",
-			FloatA: 0.000001,
-			FloatB: 0.000002,
+			Name:          "when two floats with a difference smaller than tuple.EPSILON are compared",
+			FloatA:        0.000001,
+			FloatB:        0.000002,
 			ExpectedEqual: true,
-
 		},
 		{
-			Name: "when two floats with a difference larger than tuple.EPSILON are compared",
-			FloatA: 0.00001,
-			FloatB: 0.0002,
+			Name:          "when two floats with a difference larger than tuple.EPSILON are compared",
+			FloatA:        0.00001,
+			FloatB:        0.0002,
 			ExpectedEqual: false,
 		},
 		{
-			Name: "when two floats with a difference equal to tuple.EPSILON are compared",
-			FloatA: 0.00001,
-			FloatB: 0.00002,
+			Name:          "when two floats with a difference equal to tuple.EPSILON are compared",
+			FloatA:        0.00001,
+			FloatB:        0.00002,
 			ExpectedEqual: false,
 		},
 	}
@@ -79,10 +78,10 @@ func TestEqual(t *testing.T) {
 }
 
 func TestEqualTuple(t *testing.T) {
-	tests := []struct{
-		Name string
-		TupleA *tuple.Tuple
-		TupleB *tuple.Tuple
+	tests := []struct {
+		Name          string
+		TupleA        *tuple.Tuple
+		TupleB        *tuple.Tuple
 		ExpectedEqual bool
 	}{
 		{
@@ -140,5 +139,32 @@ func TestEqualTuple(t *testing.T) {
 			assert.Equal(t, tuple.EqualTuple(tc.TupleA, tc.TupleB), tc.ExpectedEqual)
 		})
 	}
+}
 
+func TestAdd(t *testing.T) {
+	tests := []struct {
+		Name           string
+		TupleA         *tuple.Tuple
+		TupleB         *tuple.Tuple
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "when two vectors are added",
+			TupleA:         tuple.NewVector(5, -2, 3),
+			TupleB:         tuple.NewVector(5, 2, -3),
+			ExpectedResult: &tuple.Tuple{X: 10},
+		},
+		{
+			Name:           "when a vector and a point are added",
+			TupleA:         tuple.NewPoint(3, -2, 5),
+			TupleB:         tuple.NewVector(-2, 3, 1),
+			ExpectedResult: &tuple.Tuple{1, 1, 6, 1},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Add(tc.TupleA, tc.TupleB))
+		})
+	}
 }
