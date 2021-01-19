@@ -58,3 +58,14 @@ func Add(a, b *Tuple) *Tuple {
 		W: a.W + b.W,
 	}
 }
+
+// Sub returns a new Tuple which is the subtraction of b from a,
+// i.e. a-b.
+func Sub(a, b *Tuple) *Tuple {
+	return &Tuple{
+		X: a.X - b.X,
+		Y: a.Y - b.Y,
+		Z: a.Z - b.Z,
+		W: a.W - b.W,
+	}
+}

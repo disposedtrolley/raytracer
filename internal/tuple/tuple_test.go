@@ -168,3 +168,37 @@ func TestAdd(t *testing.T) {
 		})
 	}
 }
+
+func TestSub(t *testing.T) {
+	tests := []struct {
+		Name           string
+		TupleA         *tuple.Tuple
+		TupleB         *tuple.Tuple
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "subtracting two points should produce a vector",
+			TupleA:         tuple.NewPoint(3, 2, 1),
+			TupleB:         tuple.NewPoint(5, 6, 7),
+			ExpectedResult: &tuple.Tuple{-2, -4, -6, 0},
+		},
+		{
+			Name:           "subtracting a vector from a point should produce a point",
+			TupleA:         tuple.NewPoint(3, 2, 1),
+			TupleB:         tuple.NewVector(5, 6, 7),
+			ExpectedResult: &tuple.Tuple{-2, -4, -6, 1},
+		},
+		{
+			Name:           "subtracting two vectors should produce a vector",
+			TupleA:         tuple.NewVector(3, 2, 1),
+			TupleB:         tuple.NewVector(5, 6, 7),
+			ExpectedResult: &tuple.Tuple{-2, -4, -6, 0},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Sub(tc.TupleA, tc.TupleB))
+		})
+	}
+}
