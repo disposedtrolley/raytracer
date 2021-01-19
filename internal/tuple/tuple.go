@@ -69,3 +69,9 @@ func Sub(a, b *Tuple) *Tuple {
 		W: a.W - b.W,
 	}
 }
+
+// Neg returns a new Tuple which is the negation of t.
+func Neg(t *Tuple) *Tuple {
+	// &Tuple{} is zero valued :)
+	return Sub(&Tuple{}, t)
+}

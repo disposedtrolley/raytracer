@@ -202,3 +202,24 @@ func TestSub(t *testing.T) {
 		})
 	}
 }
+
+func TestNeg(t *testing.T) {
+	tests := []struct {
+		Name           string
+		Tuple          *tuple.Tuple
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "when a vector is negated",
+			Tuple:		tuple.NewVector(1, -2, 3),
+			ExpectedResult: &tuple.Tuple{-1, 2, -3, 0},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Neg(tc.Tuple))
+		})
+	}
+}
+
