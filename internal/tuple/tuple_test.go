@@ -1,6 +1,7 @@
 package tuple_test
 
 import (
+	"math"
 	"testing"
 
 	"github.com/disposedtrolley/raytracer/internal/tuple"
@@ -269,6 +270,41 @@ func TestDiv(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.Name, func(t *testing.T) {
 			assert.Equal(t, tc.ExpectedResult, tuple.Div(tc.Tuple, tc.Scalar))
+		})
+	}
+}
+
+func TestMag(t *testing.T) {
+	tests := []struct {
+		Name           string
+		Tuple          *tuple.Tuple
+		ExpectedResult float64
+	}{
+		{
+			Name:           "magnitude of a vector (1, 0, 0)",
+			Tuple:          tuple.NewVector(1, 0, 0),
+			ExpectedResult: 1,
+		},
+		{
+			Name:           "magnitude of a vector (0, 1, 0)",
+			Tuple:          tuple.NewVector(0, 1, 0),
+			ExpectedResult: 1,
+		},
+		{
+			Name:           "magnitude of a vector (0, 0, 1)",
+			Tuple:          tuple.NewVector(0, 0, 1),
+			ExpectedResult: 1,
+		},
+		{
+			Name:           "magnitude of a vector (1, 2, 3)",
+			Tuple:          tuple.NewVector(1, 2, 3),
+			ExpectedResult: math.Sqrt(14),
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Mag(tc.Tuple))
 		})
 	}
 }

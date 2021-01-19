@@ -97,3 +97,12 @@ func Div(t *Tuple, s float64) *Tuple {
 		W: t.W / s,
 	}
 }
+
+// Mag returns the magnitude of t.
+func Mag(t *Tuple) float64 {
+	return math.Sqrt(
+		math.Pow(t.X, 2) +
+			math.Pow(t.Y, 2) +
+			math.Pow(t.Z, 2) +
+			math.Pow(t.W, 2))
+}
