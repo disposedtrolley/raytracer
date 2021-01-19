@@ -114,3 +114,18 @@ func Mag(t *Tuple) float64 {
 func IsUnitVector(t *Tuple) bool {
 	return Mag(t) == 1
 }
+
+func Normalise(t *Tuple) *Tuple {
+	if t.W != 0 {
+		panic(fmt.Errorf("attempted to normalise a non-vector tuple: %+v", t))
+	}
+
+	mag := Mag(t)
+
+	return &Tuple{
+		X: t.X / mag,
+		Y: t.Y / mag,
+		Z: t.Z / mag,
+		W: t.W / mag,
+	}
+}

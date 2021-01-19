@@ -308,3 +308,30 @@ func TestMag(t *testing.T) {
 		})
 	}
 }
+
+func TestNormalise(t *testing.T) {
+	tests := []struct {
+		Name           string
+		Tuple          *tuple.Tuple
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "normalising a vector",
+			Tuple:          tuple.NewVector(4, 0, 0),
+			ExpectedResult: &tuple.Tuple{1, 0, 0, 0},
+		},
+		{
+			Name:           "normalising another vector",
+			Tuple:          tuple.NewVector(1, 2, 3),
+			ExpectedResult: &tuple.Tuple{1 / math.Sqrt(14), 2 / math.Sqrt(14), 3 / math.Sqrt(14), 0},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			normalised := tuple.Normalise(tc.Tuple)
+			assert.Equal(t, tc.ExpectedResult, normalised)
+			assert.Equal(t, float64(1), tuple.Mag(normalised))
+		})
+	}
+}
