@@ -106,3 +106,7 @@ func Mag(t *Tuple) float64 {
 			math.Pow(t.Z, 2) +
 			math.Pow(t.W, 2))
 }
+
+func IsUnitVector(t *Tuple) bool {
+	return Mag(t) == 1
+}
