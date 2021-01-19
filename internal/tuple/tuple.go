@@ -75,3 +75,14 @@ func Neg(t *Tuple) *Tuple {
 	// &Tuple{} is zero valued :)
 	return Sub(&Tuple{}, t)
 }
+
+// Mul returns a new Tuple which is the product of t against
+// the scalar value s.
+func Mul(t *Tuple, s float64) *Tuple {
+	return &Tuple{
+		X: t.X * s,
+		Y: t.Y * s,
+		Z: t.Z * s,
+		W: t.W * s,
+	}
+}

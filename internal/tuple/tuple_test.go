@@ -211,7 +211,7 @@ func TestNeg(t *testing.T) {
 	}{
 		{
 			Name:           "when a vector is negated",
-			Tuple:		tuple.NewVector(1, -2, 3),
+			Tuple:          tuple.NewVector(1, -2, 3),
 			ExpectedResult: &tuple.Tuple{-1, 2, -3, 0},
 		},
 	}
@@ -223,3 +223,30 @@ func TestNeg(t *testing.T) {
 	}
 }
 
+func TestMul(t *testing.T) {
+	tests := []struct {
+		Name           string
+		Tuple          *tuple.Tuple
+		Scalar         float64
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "multiplying a tuple by a scalar",
+			Tuple:          &tuple.Tuple{1, -2, 3, -4},
+			Scalar:         3.5,
+			ExpectedResult: &tuple.Tuple{3.5, -7, 10.5, -14},
+		},
+		{
+			Name:           "multiplying a tuple by a fraction scalar",
+			Tuple:          &tuple.Tuple{1, -2, 3, -4},
+			Scalar:         0.5,
+			ExpectedResult: &tuple.Tuple{0.5, -1, 1.5, -2},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Mul(tc.Tuple, tc.Scalar))
+		})
+	}
+}
