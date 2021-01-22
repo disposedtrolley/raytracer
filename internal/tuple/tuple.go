@@ -139,3 +139,14 @@ func Dot(a, b *Tuple) float64 {
 		a.Y*b.Y +
 		a.Z*b.Z
 }
+
+func Cross(a, b *Tuple) *Tuple {
+	if a.W != 0 || b.W != 0 {
+		panic(fmt.Errorf("attempted to compute cross product of a point tuple: a: %+v b: %+v", a, b))
+	}
+
+	return NewVector(
+		a.Y*b.Z-a.Z*b.Y,
+		a.Z*b.X-a.X*b.Z,
+		a.X*b.Y-a.Y*b.X)
+}

@@ -357,3 +357,31 @@ func TestDot(t *testing.T) {
 		})
 	}
 }
+
+func TestCross(t *testing.T) {
+	tests := []struct {
+		Name           string
+		TupleA         *tuple.Tuple
+		TupleB         *tuple.Tuple
+		ExpectedResult *tuple.Tuple
+	}{
+		{
+			Name:           "cross product of two vectors",
+			TupleA:         tuple.NewVector(1, 2, 3),
+			TupleB:         tuple.NewVector(2, 3, 4),
+			ExpectedResult: &tuple.Tuple{-1, 2, -1, 0},
+		},
+		{
+			Name:           "cross product of two vectors - reversed",
+			TupleA:         tuple.NewVector(2, 3, 4),
+			TupleB:         tuple.NewVector(1, 2, 3),
+			ExpectedResult: &tuple.Tuple{1, -2, 1, 0},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Cross(tc.TupleA, tc.TupleB))
+		})
+	}
+}
