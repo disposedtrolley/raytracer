@@ -129,3 +129,13 @@ func Normalise(t *Tuple) *Tuple {
 		W: t.W / mag,
 	}
 }
+
+func Dot(a, b *Tuple) float64 {
+	if a.W != 0 || b.W != 0 {
+		panic(fmt.Errorf("attempted to compute dot product of a point tuple: a: %+v b: %+v", a, b))
+	}
+
+	return a.X*b.X +
+		a.Y*b.Y +
+		a.Z*b.Z
+}

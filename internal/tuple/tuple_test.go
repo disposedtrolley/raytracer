@@ -335,3 +335,25 @@ func TestNormalise(t *testing.T) {
 		})
 	}
 }
+
+func TestDot(t *testing.T) {
+	tests := []struct {
+		Name           string
+		TupleA         *tuple.Tuple
+		TupleB         *tuple.Tuple
+		ExpectedResult float64
+	}{
+		{
+			Name:           "dot product of two tuples",
+			TupleA:         tuple.NewVector(1, 2, 3),
+			TupleB:         tuple.NewVector(2, 3, 4),
+			ExpectedResult: 20,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.Name, func(t *testing.T) {
+			assert.Equal(t, tc.ExpectedResult, tuple.Dot(tc.TupleA, tc.TupleB))
+		})
+	}
+}
