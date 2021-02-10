@@ -8,13 +8,13 @@ import (
 )
 
 type Projectile struct {
-	Position *tuple.Tuple
-	Velocity *tuple.Tuple
+	Position tuple.Tuple
+	Velocity tuple.Tuple
 }
 
 type Environment struct {
-	Gravity *tuple.Tuple
-	Wind    *tuple.Tuple
+	Gravity tuple.Tuple
+	Wind    tuple.Tuple
 }
 
 func tick(environment *Environment, projectile *Projectile) *Projectile {
@@ -39,9 +39,9 @@ func Run() {
 	}
 
 	i := 0
-	for p.Position.Y > 0 {
+	for p.Position.Y() > 0 {
 		p = tick(e, p)
-		fmt.Printf("Tick: %d Position: [%f, %f, %f]\n", i, p.Position.X, p.Position.Y, p.Position.Z)
+		fmt.Printf("Tick: %d Position: [%f, %f, %f]\n", i, p.Position.X(), p.Position.Y(), p.Position.Z())
 		i++
 	}
 }

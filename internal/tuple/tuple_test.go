@@ -10,37 +10,27 @@ import (
 )
 
 func TestPoint(t *testing.T) {
-	a := &tuple.Tuple{X: 4.3, Y: -4.2, Z: 3.1, W: 1.0}
-	assert.Equal(t, a.X, 4.3)
-	assert.Equal(t, a.Y, -4.2)
-	assert.Equal(t, a.Z, 3.1)
-	assert.Equal(t, a.W, 1.0)
+	a := tuple.Tuple{4.3, -4.2, 3.1, 1.0}
+	assert.Equal(t, a.X(), 4.3)
+	assert.Equal(t, a.Y(), -4.2)
+	assert.Equal(t, a.Z(), 3.1)
+	assert.Equal(t, a.W(), 1.0)
 
 	assert.EqualValues(t,
 		tuple.NewPoint(4, -4, 3),
-		&tuple.Tuple{
-			X: 4,
-			Y: -4,
-			Z: 3,
-			W: 1.0,
-		})
+		tuple.Tuple{4, -4, 3, 1.0})
 }
 
 func TestVector(t *testing.T) {
-	a := &tuple.Tuple{X: 4.3, Y: -4.2, Z: 3.1, W: 0.0}
-	assert.Equal(t, a.X, 4.3)
-	assert.Equal(t, a.Y, -4.2)
-	assert.Equal(t, a.Z, 3.1)
-	assert.Equal(t, a.W, 0.0)
+	a := tuple.Tuple{4.3, -4.2, 3.1, 0.0}
+	assert.Equal(t, a.X(), 4.3)
+	assert.Equal(t, a.Y(), -4.2)
+	assert.Equal(t, a.Z(), 3.1)
+	assert.Equal(t, a.W(), 0.0)
 
 	assert.EqualValues(t,
 		tuple.NewVector(4, -4, 3),
-		&tuple.Tuple{
-			X: 4,
-			Y: -4,
-			Z: 3,
-			W: 0.0,
-		})
+		tuple.Tuple{4, -4, 3, 0.0})
 }
 
 func TestEqual(t *testing.T) {
@@ -81,55 +71,55 @@ func TestEqual(t *testing.T) {
 func TestEqualTuple(t *testing.T) {
 	tests := []struct {
 		Name          string
-		TupleA        *tuple.Tuple
-		TupleB        *tuple.Tuple
+		TupleA        tuple.Tuple
+		TupleB        tuple.Tuple
 		ExpectedEqual bool
 	}{
 		{
 			Name: "when two tuples with differences smaller than tuple.EPSILON are compared",
-			TupleA: &tuple.Tuple{
-				X: 0.000001,
-				Y: 0.000001,
-				Z: 0.000001,
-				W: 0.0,
+			TupleA: tuple.Tuple{
+				0.000001,
+				0.000001,
+				0.000001,
+				0.0,
 			},
-			TupleB: &tuple.Tuple{
-				X: 0.000002,
-				Y: 0.000002,
-				Z: 0.000002,
-				W: 0.0,
+			TupleB: tuple.Tuple{
+				0.000002,
+				0.000002,
+				0.000002,
+				0.0,
 			},
 			ExpectedEqual: true,
 		},
 		{
 			Name: "when two tuples with differences larger than tuple.EPSILON are compared",
-			TupleA: &tuple.Tuple{
-				X: 0.000001,
-				Y: 0.000001,
-				Z: 0.000001,
-				W: 0.0,
+			TupleA: tuple.Tuple{
+				0.000001,
+				0.000001,
+				0.000001,
+				0.0,
 			},
-			TupleB: &tuple.Tuple{
-				X: 0.00002,
-				Y: 0.00002,
-				Z: 0.00002,
-				W: 0.0,
+			TupleB: tuple.Tuple{
+				0.00002,
+				0.00002,
+				0.00002,
+				0.0,
 			},
 			ExpectedEqual: false,
 		},
 		{
 			Name: "when two tuples with differences equal to tuple.EPSILON are compared",
-			TupleA: &tuple.Tuple{
-				X: 0.00001,
-				Y: 0.00001,
-				Z: 0.00001,
-				W: 0.0,
+			TupleA: tuple.Tuple{
+				0.00001,
+				0.00001,
+				0.00001,
+				0.0,
 			},
-			TupleB: &tuple.Tuple{
-				X: 0.00002,
-				Y: 0.00002,
-				Z: 0.00002,
-				W: 0.0,
+			TupleB: tuple.Tuple{
+				0.00002,
+				0.00002,
+				0.00002,
+				0.0,
 			},
 			ExpectedEqual: false,
 		},
@@ -145,21 +135,21 @@ func TestEqualTuple(t *testing.T) {
 func TestAdd(t *testing.T) {
 	tests := []struct {
 		Name           string
-		TupleA         *tuple.Tuple
-		TupleB         *tuple.Tuple
-		ExpectedResult *tuple.Tuple
+		TupleA         tuple.Tuple
+		TupleB         tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "when two vectors are added",
 			TupleA:         tuple.NewVector(5, -2, 3),
 			TupleB:         tuple.NewVector(5, 2, -3),
-			ExpectedResult: &tuple.Tuple{X: 10},
+			ExpectedResult: tuple.Tuple{10, 0, 0, 0},
 		},
 		{
 			Name:           "when a vector and a point are added",
 			TupleA:         tuple.NewPoint(3, -2, 5),
 			TupleB:         tuple.NewVector(-2, 3, 1),
-			ExpectedResult: &tuple.Tuple{1, 1, 6, 1},
+			ExpectedResult: tuple.Tuple{1, 1, 6, 1},
 		},
 	}
 
@@ -173,27 +163,27 @@ func TestAdd(t *testing.T) {
 func TestSub(t *testing.T) {
 	tests := []struct {
 		Name           string
-		TupleA         *tuple.Tuple
-		TupleB         *tuple.Tuple
-		ExpectedResult *tuple.Tuple
+		TupleA         tuple.Tuple
+		TupleB         tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "subtracting two points should produce a vector",
 			TupleA:         tuple.NewPoint(3, 2, 1),
 			TupleB:         tuple.NewPoint(5, 6, 7),
-			ExpectedResult: &tuple.Tuple{-2, -4, -6, 0},
+			ExpectedResult: tuple.Tuple{-2, -4, -6, 0},
 		},
 		{
 			Name:           "subtracting a vector from a point should produce a point",
 			TupleA:         tuple.NewPoint(3, 2, 1),
 			TupleB:         tuple.NewVector(5, 6, 7),
-			ExpectedResult: &tuple.Tuple{-2, -4, -6, 1},
+			ExpectedResult: tuple.Tuple{-2, -4, -6, 1},
 		},
 		{
 			Name:           "subtracting two vectors should produce a vector",
 			TupleA:         tuple.NewVector(3, 2, 1),
 			TupleB:         tuple.NewVector(5, 6, 7),
-			ExpectedResult: &tuple.Tuple{-2, -4, -6, 0},
+			ExpectedResult: tuple.Tuple{-2, -4, -6, 0},
 		},
 	}
 
@@ -207,13 +197,13 @@ func TestSub(t *testing.T) {
 func TestNeg(t *testing.T) {
 	tests := []struct {
 		Name           string
-		Tuple          *tuple.Tuple
-		ExpectedResult *tuple.Tuple
+		Tuple          tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "when a vector is negated",
 			Tuple:          tuple.NewVector(1, -2, 3),
-			ExpectedResult: &tuple.Tuple{-1, 2, -3, 0},
+			ExpectedResult: tuple.Tuple{-1, 2, -3, 0},
 		},
 	}
 
@@ -227,21 +217,21 @@ func TestNeg(t *testing.T) {
 func TestMul(t *testing.T) {
 	tests := []struct {
 		Name           string
-		Tuple          *tuple.Tuple
+		Tuple          tuple.Tuple
 		Scalar         float64
-		ExpectedResult *tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "multiplying a tuple by a scalar",
-			Tuple:          &tuple.Tuple{1, -2, 3, -4},
+			Tuple:          tuple.Tuple{1, -2, 3, -4},
 			Scalar:         3.5,
-			ExpectedResult: &tuple.Tuple{3.5, -7, 10.5, -14},
+			ExpectedResult: tuple.Tuple{3.5, -7, 10.5, -14},
 		},
 		{
 			Name:           "multiplying a tuple by a fraction scalar",
-			Tuple:          &tuple.Tuple{1, -2, 3, -4},
+			Tuple:          tuple.Tuple{1, -2, 3, -4},
 			Scalar:         0.5,
-			ExpectedResult: &tuple.Tuple{0.5, -1, 1.5, -2},
+			ExpectedResult: tuple.Tuple{0.5, -1, 1.5, -2},
 		},
 	}
 
@@ -255,15 +245,15 @@ func TestMul(t *testing.T) {
 func TestDiv(t *testing.T) {
 	tests := []struct {
 		Name           string
-		Tuple          *tuple.Tuple
+		Tuple          tuple.Tuple
 		Scalar         float64
-		ExpectedResult *tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "dividing a tuple by a scalar",
-			Tuple:          &tuple.Tuple{1, -2, 3, -4},
+			Tuple:          tuple.Tuple{1, -2, 3, -4},
 			Scalar:         2,
-			ExpectedResult: &tuple.Tuple{0.5, -1, 1.5, -2},
+			ExpectedResult: tuple.Tuple{0.5, -1, 1.5, -2},
 		},
 	}
 
@@ -277,7 +267,7 @@ func TestDiv(t *testing.T) {
 func TestMag(t *testing.T) {
 	tests := []struct {
 		Name           string
-		Tuple          *tuple.Tuple
+		Tuple          tuple.Tuple
 		ExpectedResult float64
 	}{
 		{
@@ -312,18 +302,18 @@ func TestMag(t *testing.T) {
 func TestNormalise(t *testing.T) {
 	tests := []struct {
 		Name           string
-		Tuple          *tuple.Tuple
-		ExpectedResult *tuple.Tuple
+		Tuple          tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "normalising a vector",
 			Tuple:          tuple.NewVector(4, 0, 0),
-			ExpectedResult: &tuple.Tuple{1, 0, 0, 0},
+			ExpectedResult: tuple.Tuple{1, 0, 0, 0},
 		},
 		{
 			Name:           "normalising another vector",
 			Tuple:          tuple.NewVector(1, 2, 3),
-			ExpectedResult: &tuple.Tuple{1 / math.Sqrt(14), 2 / math.Sqrt(14), 3 / math.Sqrt(14), 0},
+			ExpectedResult: tuple.Tuple{1 / math.Sqrt(14), 2 / math.Sqrt(14), 3 / math.Sqrt(14), 0},
 		},
 	}
 
@@ -339,8 +329,8 @@ func TestNormalise(t *testing.T) {
 func TestDot(t *testing.T) {
 	tests := []struct {
 		Name           string
-		TupleA         *tuple.Tuple
-		TupleB         *tuple.Tuple
+		TupleA         tuple.Tuple
+		TupleB         tuple.Tuple
 		ExpectedResult float64
 	}{
 		{
@@ -361,21 +351,21 @@ func TestDot(t *testing.T) {
 func TestCross(t *testing.T) {
 	tests := []struct {
 		Name           string
-		TupleA         *tuple.Tuple
-		TupleB         *tuple.Tuple
-		ExpectedResult *tuple.Tuple
+		TupleA         tuple.Tuple
+		TupleB         tuple.Tuple
+		ExpectedResult tuple.Tuple
 	}{
 		{
 			Name:           "cross product of two vectors",
 			TupleA:         tuple.NewVector(1, 2, 3),
 			TupleB:         tuple.NewVector(2, 3, 4),
-			ExpectedResult: &tuple.Tuple{-1, 2, -1, 0},
+			ExpectedResult: tuple.Tuple{-1, 2, -1, 0},
 		},
 		{
 			Name:           "cross product of two vectors - reversed",
 			TupleA:         tuple.NewVector(2, 3, 4),
 			TupleB:         tuple.NewVector(1, 2, 3),
-			ExpectedResult: &tuple.Tuple{1, -2, 1, 0},
+			ExpectedResult: tuple.Tuple{1, -2, 1, 0},
 		},
 	}
 
