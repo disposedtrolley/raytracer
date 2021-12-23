@@ -73,7 +73,6 @@ func Sub(a, b Tuple) Tuple {
 
 // Neg returns a new Tuple which is the negation of t.
 func Neg(t Tuple) Tuple {
-	// &Tuple{} is zero valued :)
 	return Sub(Tuple{0, 0, 0, 0}, t)
 }
 
