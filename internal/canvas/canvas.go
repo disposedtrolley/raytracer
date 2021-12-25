@@ -3,6 +3,8 @@ package canvas
 import (
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 
 	"github.com/disposedtrolley/raytracer/internal/colour"
 	"github.com/disposedtrolley/raytracer/internal/tuple"
@@ -40,42 +42,48 @@ const (
 	ppmMaxColourValue = 255
 )
 
-func ToPPM(c *Canvas) (lines []string) {
-	// header
-	lines = []string{
-		"P3",
-		fmt.Sprintf("%d %d", c.Width, c.Height),
-		fmt.Sprintf("%d", ppmMaxColourValue),
-	}
+func ToPPM(c *Canvas) (out string) {
+	var b strings.Builder
 
-	pixelsBuffered := 0
+	// header
+	b.WriteString("P3\n")
+	b.WriteString(fmt.Sprintf("%d %d\n", c.Width, c.Height))
+	b.WriteString(fmt.Sprintf("%d\n", ppmMaxColourValue))
+
+	channelsBuffered := 0
 	buf := ""
 
+	var pixelChannels []string
 	for _, pixel := range c.Data {
 		rgb := colour.ToRGB(pixel)
-		currTuple := fmt.Sprintf("%d %d %d", scale(rgb[0]), scale(rgb[1]), scale(rgb[2]))
-
-		if pixelsBuffered+1 == c.Width || len(buf+currTuple) >= ppmMaxLineLength-1 {
-			fmt.Printf("flushing at chars %d\n", len(buf+currTuple))
-			// flush
-			lines = append(lines, fmt.Sprintf("%s %s", buf, currTuple))
-
-			buf = ""
-			pixelsBuffered = 0
-			continue
+		for _, channel := range rgb {
+			pixelChannels = append(pixelChannels, strconv.Itoa(scale(channel)))
 		}
-
-		if len(buf) == 0 {
-			buf = fmt.Sprintf("%s%s", buf, currTuple)
-		} else {
-			buf = fmt.Sprintf("%s %s", buf, currTuple)
-		}
-
-		pixelsBuffered++
 	}
 
-	lines = append(lines, "\n")
-	return lines
+	for _, channel := range pixelChannels {
+		if len(buf) == 0 {
+			buf = fmt.Sprintf("%s%s", buf, channel)
+		} else {
+			buf = fmt.Sprintf("%s %s", buf, channel)
+		}
+
+		channelsBuffered++
+
+		if len(buf) + 3 >= ppmMaxLineLength {
+			b.WriteString(buf)
+			b.WriteString("\n")
+			buf = ""
+		} else if channelsBuffered/3 >= c.Width {
+			b.WriteString(buf)
+			b.WriteString("\n")
+			buf = ""
+			channelsBuffered = 0
+		}
+	}
+
+	b.WriteString("\n")
+	return b.String()
 }
 
 func scale(val float64) int {
