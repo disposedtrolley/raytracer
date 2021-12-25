@@ -10,4 +10,5 @@ func main() {
 	fmt.Println("Hello, raytracer")
 
 	tick.Run()
+	tick.RunCanvas()
 }

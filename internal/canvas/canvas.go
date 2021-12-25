@@ -30,11 +30,19 @@ func NewCanvas(width, height int) *Canvas {
 }
 
 func (c *Canvas) Set(x, y int, pixel tuple.Tuple) {
-	c.Data[c.Width*y+x] = pixel
+	idx := c.Width*y + x
+	if idx >= 0 && idx < len(c.Data) {
+		c.Data[idx] = pixel
+	}
 }
 
 func (c *Canvas) Get(x, y int) tuple.Tuple {
-	return c.Data[c.Width*y+x]
+	idx := c.Width*y + x
+	if idx >= 0 && idx < len(c.Data) {
+		return c.Data[c.Width*y+x]
+	}
+
+	return tuple.NewVector(0, 0, 0)
 }
 
 const (
